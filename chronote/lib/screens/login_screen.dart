@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
             Row(
               children: [
                 Checkbox(value: true, onChanged: (value) {}),
-                const Text("Acepto Términos y Condiciones"),
+                const Text("Olvidé mi Contraseña"),
               ],
             ),
             ElevatedButton(
@@ -54,7 +54,7 @@ class LoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               onPressed: () {
-                
+
               },
               child: const Text(
                 "Crear Cuenta",
