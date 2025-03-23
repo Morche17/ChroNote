@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sign_up_screen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -37,7 +38,7 @@ class LoginScreen extends StatelessWidget {
               obscureText: true,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock),
-                labelText: "Crear Contraseña",
+                labelText: "Contraseña",
                 border: OutlineInputBorder(),
               ),
             ),
@@ -54,10 +55,13 @@ class LoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               onPressed: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
               },
               child: const Text(
-                "Crear Cuenta",
+                "Iniciar Sesión",
                 style: TextStyle(color: Colors.white),
               ),
             ),
