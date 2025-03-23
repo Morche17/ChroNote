@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'sign_up_screen.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +14,13 @@ class SignUpScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              "Crear Cuenta",
+              "Iniciar Sesión",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             const Text(
-              "Crea tu cuenta para empezar",
+              "Inicia Sesión para continuar",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
@@ -41,15 +41,6 @@ class SignUpScreen extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock),
-                labelText: "Repetir Contraseña",
-                border: OutlineInputBorder(),
-              ),
-            ),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -62,7 +53,9 @@ class SignUpScreen extends StatelessWidget {
                 backgroundColor: Colors.black,
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              onPressed: () {},
+              onPressed: () {
+                
+              },
               child: const Text(
                 "Crear Cuenta",
                 style: TextStyle(color: Colors.white),
@@ -93,11 +86,11 @@ class SignUpScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  MaterialPageRoute(builder: (context) => const SignUpScreen()),
                 );
               },
               child: const Text(
-                "¿Ya estás registrado? Iniciar Sesión",
+                "¿No estás registrado? Regístrate",
                 style: TextStyle(color: Colors.blue),
               ),
             ),
