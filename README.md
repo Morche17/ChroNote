@@ -2,7 +2,7 @@
 
 ## Descripción
 
-ChroNote es un proyecto de código abierto desarrollado por [Morche17](https://github.com/Morche17) y colaboradores. Actualmente, el repositorio no proporciona una descripción detallada del proyecto. Sin embargo, basándonos en el nombre "ChroNote", es posible que se trate de una aplicación relacionada con la gestión de notas o cronogramas.
+ChroNote es un proyecto de código abierto desarrollado por [Morche17](https://github.com/Morche17) y colaboradores. 
 
 ## Estructura del Proyecto
 
