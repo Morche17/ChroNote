@@ -37,13 +37,10 @@ Este proyecto ha sido desarrollado por los siguientes colaboradores:
 
 ## Instalación y Uso
 
-Dado que no se proporciona información específica en el repositorio sobre cómo instalar o utilizar ChroNote, se recomienda ponerse en contacto con los colaboradores mencionados anteriormente para obtener más detalles.
+PENDIENTE
 
-## Contribuciones
-
-Las contribuciones al proyecto son bienvenidas. Si estás interesado en contribuir, por favor contacta a los colaboradores principales para discutir cómo puedes ayudar.
 
 ## Licencia
 
-No se especifica una licencia en el repositorio. Para conocer los términos bajo los cuales se puede utilizar o modificar el código, es aconsejable comunicarse directamente con los autores del proyecto.
+
 
