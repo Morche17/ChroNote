@@ -1,6 +1,6 @@
 # ChroNote
 
-## Descripción
+## Descripción del Proyecto
 
 ChroNote es un proyecto de código abierto desarrollado por [Morche17](https://github.com/Morche17) y colaboradores. 
 
@@ -13,6 +13,12 @@ El repositorio contiene los siguientes archivos y directorios:
 - **README.md**: Este archivo, que proporciona información sobre el proyecto.
 - **backup.sql**: Archivo que podría contener una copia de seguridad de una base de datos relacionada con el proyecto.
 - **prueba.txt**: Archivo de texto que podría haberse utilizado para pruebas.
+
+## Requisitos de instalacion
+PENDIENTE
+
+## Procedimiento de instalacion
+PENDIENTE
 
 ## Lenguajes y Tecnologías
 
@@ -30,17 +36,11 @@ El proyecto está compuesto por varios lenguajes de programación y tecnologías
 
 Este proyecto ha sido desarrollado por los siguientes colaboradores:
 
-- [compacano (Cano)](https://github.com/compacano)
+- [compacano (ALfonso Cano)](https://github.com/compacano)
 - [JuanRoman01 (Juan Antonio Roman Castro)](https://github.com/JuanRoman01)
 - [Morche17 (Emanuel Tavares)](https://github.com/Morche17)
 - [Kush4o (Adam García Romero)](https://github.com/Kush4o)
 
-## Instalación y Uso
-
-PENDIENTE
-
-
-## Licencia
-
+## Liga a documentación del proyecto.
 
 
