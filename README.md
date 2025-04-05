@@ -36,7 +36,7 @@ El proyecto está compuesto por varios lenguajes de programación y tecnologías
 
 Este proyecto ha sido desarrollado por los siguientes colaboradores:
 
-- [compacano (ALfonso Cano)](https://github.com/compacano)
+- [compacano (Alfonso Cano)](https://github.com/compacano)
 - [JuanRoman01 (Juan Antonio Roman Castro)](https://github.com/JuanRoman01)
 - [Morche17 (Emanuel Tavares)](https://github.com/Morche17)
 - [Kush4o (Adam García Romero)](https://github.com/Kush4o)
