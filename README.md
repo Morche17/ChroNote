@@ -11,7 +11,7 @@ En un entorno donde la productividad y la organización son esenciales, ChroNote
 - Gestión de Horarios: Permite crear y visualizar horarios académicos o personales en vistas mensual, semanal y diaria.
 - Notas Vinculadas a Eventos: Toma de notas asociadas automáticamente a una clase o actividad específica.
 - Recordatorios Inteligentes: Notificaciones personalizables antes de cada evento, con detalles como asignatura, hora y lugar.
-- Almacenamiento Local Seguro: Todos los datos se guardan en el dispositivo, sin conexión obligatoria a internet.
+- Almacenamiento Seguro: La Base de Datos contará con la seguridad necesaria para la protección de los datos de nuestros usuarios
 - Búsqueda Rápida: Filtrado por fecha, asignatura o palabras clave para acceder rápidamente a cualquier nota.
 - Interfaz Intuitiva: Fácil navegación, diseño adaptado a móviles y tablets.
 
