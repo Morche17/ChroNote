@@ -1,5 +1,4 @@
-# 📘ChroNote
-<img src="https://github.com/user-attachments/assets/58880c20-2610-482c-8497-8f2ed2326c93" alt="logo" width="150"/>
+# <img src="https://github.com/user-attachments/assets/58880c20-2610-482c-8497-8f2ed2326c93" alt="logo" width="40"/> ChroNote <img src="https://github.com/user-attachments/assets/58880c20-2610-482c-8497-8f2ed2326c93" alt="logo" width="40"/> 
 
 ## 📝 Descripción del Proyecto
 
