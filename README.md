@@ -1,4 +1,5 @@
 # 📘ChroNote
+<img src="https://github.com/user-attachments/assets/58880c20-2610-482c-8497-8f2ed2326c93" alt="logo" width="150"/>
 
 ## 📝 Descripción del Proyecto
 
@@ -49,6 +50,7 @@ Este proyecto ha sido desarrollado por:
 - [JuanRoman01 (Juan Antonio Roman Castro)](https://github.com/JuanRoman01)
 - [Morche17 (Emanuel Tavares)](https://github.com/Morche17)
 - [Kush4o (Adam García Romero)](https://github.com/Kush4o)
+- 
 
 ## 📚 Documentación del Proyecto
 
