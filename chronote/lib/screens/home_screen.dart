@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:chronote/widgets/theme_card.dart';
 
 class HomeScreen extends StatelessWidget {
-//  const HomeScreen({super.key});
+  const HomeScreen({super.key});
 //  Future<List> getData() async {
 //    final response = await http.get("http://10.0.2.2/consulta.php" as Uri);
 //    return json.decode(response.body);
