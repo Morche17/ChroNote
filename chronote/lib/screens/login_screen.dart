@@ -1,3 +1,4 @@
+import 'package:chronote/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'sign_up_screen.dart';
 import 'home_screen.dart';
@@ -57,7 +58,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  MaterialPageRoute(builder: (context) => const MainScreen()),
                 );
               },
               child: const Text(
