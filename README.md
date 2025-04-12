@@ -23,6 +23,38 @@ El repositorio contiene los siguientes archivos y directorios:
 - **README.md**: Este archivo, que proporciona información sobre el proyecto.
 - **backup.sql**: Este archivo contiene una copia de seguridad de la Base de Datos.
 
+## 🗂️ Clonación del repositorio
+
+Para clonar este repositorio en tu computadora, asegúrate primero de tener **Git** instalado.
+
+### ✅ Requisitos previos (Git)
+
+- **Linux**: Abre una terminal y ejecuta:
+  ```bash
+  sudo apt update
+  sudo apt install git
+- **Windows**: Descarga Git desde https://git-scm.com/download/win y durante la instalación selecciona la opción que te permite usar Git desde la línea de comandos.
+Luego puedes usar PowerShell o Git Bash.
+- **macOS**: Abre la Terminal y ejecuta:
+  ```bash
+  sudo apt update
+
+### 📥 Clonación del repositorio
+- **Linux**: Abre la terminal y escribe:
+  ```bash
+  git clone https://github.com/Morche17/ChroNote.git
+- **Windows**: Abre PowerShell o Git Bash y escribe:
+  ```bash
+  git clone https://github.com/Morche17/ChroNote.git
+- **MacOS**: Abre la terminal y escribe:
+  ```bash
+  git clone https://github.com/Morche17/ChroNote.git
+- Luego, entra a la carpeta del proyecto con:
+  ```bash
+  cd ChroNote
+
+
+### ✅ Requisitos previos (Git)
 ## ⚙️ Requisitos de Instalación
 Sección en construcción. Pronto se detallarán los requerimientos técnicos.
 
