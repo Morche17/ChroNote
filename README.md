@@ -37,7 +37,7 @@ Para clonar este repositorio en tu computadora, asegúrate primero de tener **Gi
 Luego puedes usar PowerShell o Git Bash.
 - **macOS**: Abre la Terminal y ejecuta:
   ```bash
-  sudo apt update
+  xcode-select --install
 
 ### 📥 Clonación del repositorio
 - **Linux**: Abre la terminal y escribe:
