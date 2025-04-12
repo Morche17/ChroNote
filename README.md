@@ -53,8 +53,6 @@ Luego puedes usar PowerShell o Git Bash.
   ```bash
   cd ChroNote
 
-
-### ✅ Requisitos previos (Git)
 ## ⚙️ Requisitos de Instalación
 Sección en construcción. Pronto se detallarán los requerimientos técnicos.
 
