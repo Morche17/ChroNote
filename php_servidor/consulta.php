@@ -18,8 +18,7 @@ WITH LatestNote AS (
 SELECT
     a.nombre AS titulo_actividad,
     a.descripcion AS descripcion_actividad,
-    ln.descripcion_ultima_nota,  -- Descripción de la última nota del tema
-    -- Comprobamos si existe alguna entrada en horaactividad para esta actividad
+    ln.descripcion_ultima_nota,
     (EXISTS (SELECT 1 FROM horaactividad h WHERE h.idActividad = a.idActividad)) AS tiene_horario,
     t.nombre AS nombre_tema,
     t.posee_calendario AS tema_posee_calendario
@@ -27,10 +26,10 @@ FROM
     actividades a
 JOIN
     temas t ON a.idTema = t.idTema
-LEFT JOIN -- Usamos LEFT JOIN por si un tema no tiene notas aún
-    LatestNote ln ON t.idTema = ln.idTema AND ln.rn = 1 -- Nos quedamos solo con la más reciente (rn=1)
+LEFT JOIN 
+    LatestNote ln ON t.idTema = ln.idTema AND ln.rn = 1 
 ORDER BY
-    t.nombre, a.nombre; -- Opcional: Ordenar resultados
+    t.nombre, a.nombre; 
 ";
 
 $result = $conn->query($sql);
@@ -45,7 +44,7 @@ if ($result === FALSE) {
     while($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . htmlspecialchars($row["titulo_actividad"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["descripcion_actividad"] ?? 'N/A') . "</td>"; // Usar ?? para manejar NULLs
+        echo "<td>" . htmlspecialchars($row["descripcion_actividad"] ?? 'N/A') . "</td>"; 
         echo "<td>" . htmlspecialchars($row["descripcion_ultima_nota"] ?? 'N/A') . "</td>";
         echo "<td>" . ($row["tiene_horario"] ? 'Sí' : 'No') . "</td>";
         echo "<td>" . htmlspecialchars($row["nombre_tema"]) . "</td>";
