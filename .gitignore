@@ -1,29 +1,29 @@
 # Ignore bundler config.
-/.bundle
+api_bd/.bundle
 
 # Ignore all environment files.
-/.env*
+api_bd/.env*
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+api_bd/log/*
+api_bd/tmp/*
+!api_bd/log/.keep
+!api_bd/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
-/tmp/pids/*
-!/tmp/pids/
-!/tmp/pids/.keep
+api_bd/tmp/pids/*
+!api_bd/tmp/pids/
+!api_bd/tmp/pids/.keep
 
 # Ignore storage (uploaded files in development and any SQLite databases).
-/storage/*
-!/storage/.keep
-/tmp/storage/*
-!/tmp/storage/
-!/tmp/storage/.keep
+api_bd/storage/*
+!api_bd/storage/.keep
+api_bd/tmp/storage/*
+!api_bd/tmp/storage/
+!api_bd/tmp/storage/.keep
 
 # Ignore master key for decrypting credentials and more.
-/config/master.key
+api_bd/config/master.key
 
 # macOS files
 .DS_Store
