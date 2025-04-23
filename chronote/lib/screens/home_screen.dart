@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chronote/widgets/theme_card.dart';
+import 'package:chronote/screens/note_creator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,26 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Home",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NoteCreator()),
+                );
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           TextField(
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.search),
