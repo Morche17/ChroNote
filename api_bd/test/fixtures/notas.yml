@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tema: one
+  nombre: MyString
+  descripcion: MyString
+  fecha_creacion: 2025-04-22 19:29:19
+  fecha_notificacion: 2025-04-22
+
+two:
+  tema: two
+  nombre: MyString
+  descripcion: MyString
+  fecha_creacion: 2025-04-22 19:29:19
+  fecha_notificacion: 2025-04-22

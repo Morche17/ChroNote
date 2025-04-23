@@ -1,4 +1,5 @@
 class Usuario < ApplicationRecord
   has_secure_password
-  validates :correo, presence: true, uniqueness: true
+  has_many :temas, dependent: :destroy
+  # Añade validaciones si es necesario
 end
