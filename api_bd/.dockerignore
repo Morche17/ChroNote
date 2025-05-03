@@ -1,0 +1,10 @@
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+node_modules
+tmp/*
+log/*
+storage/*
+public/packs
+.env

@@ -1,0 +1,38 @@
+# Dockerfile.dev
+ARG RUBY_VERSION=3.4.2
+FROM ruby:$RUBY_VERSION-slim
+
+# Instalar dependencias de desarrollo
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    curl \
+    default-mysql-client \
+    default-libmysqlclient-dev \
+    git \
+    libvips \
+    nodejs \ # Necesario para asset pipeline (Webpacker, etc.)
+    vim && \ # Editor opcional
+    rm -rf /var/lib/apt/lists/*
+
+# Variables de entorno para desarrollo
+ENV RAILS_ENV=development \
+    BUNDLE_PATH="/gems" \
+    BUNDLE_APP_CONFIG="/gems" \
+    GEM_HOME="/gems" \
+    PATH="${PATH}:/gems/bin"
+
+# Crear carpeta para gems y proyecto
+RUN mkdir -p /gems /app
+WORKDIR /app
+
+# Copiar entrypoint personalizado
+COPY bin/docker-entrypoint-dev /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint-dev
+ENTRYPOINT ["docker-entrypoint-dev"]
+
+# Puerto para desarrollo
+EXPOSE 3000
+
+# Comando por defecto (se puede sobreescribir con `docker run`)
+CMD ["rails", "server", "-b", "0.0.0.0"]
