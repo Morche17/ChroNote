@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+# Instalar dependencias si faltan
+bundle check || bundle install
+
+# Preparar la base de datos
+bundle exec rails db:prepare
+
+# Ejecutar el comando principal con bundle exec
+exec bundle exec "$@"

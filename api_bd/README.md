@@ -20,11 +20,42 @@
 	* brakeman
 	* rubocop-rails-omakase
 
-* Configuration
+## Configuración a través de Docker
+* Clona el repositorio:
+
+```
+git clone https://github.com/Morche17/ChroNote.git
+```
+
+* Entra en el directorio:
+
+```
+cd ChroNote
+```
+
+* Se deben configurar las variables de entorno y credenciales. Contactar con [Morche17 (Emanuel Tavares)](https://github.com/Morche17).
+
+* Inicializa el contenedor con: 
+
+```
+docker-compose up --build
+```
+
+* Después de levantar el contenedor, puedes entrar al navegador de tu preferencia y colocar ```localhost:3000``` para comprobar que el servidor está funcionando:
+
+![Servidor funcionando](anexos/rails.png)
+
+* Puedes probar un registro de usuario colocando esta petición con `curl` (si estás usando Linux o macOS):
+
+```
+curl -i -H "Content-Type:application/json" -X POST http://localhost:3000/api/v1/usuarios -d '{"usuario": {"nombre": "Usuario", "correo": "ejemplo@email.com", "contrasena": "secretisimo"}}'
+```
+
+## Configuración manual
 
 Todas las dependencias se encuentran en el ```Gemfile```. Para instalarlas basta con escribir en terminal ```bundle install```.
 
-* Database creation
+### Creación de la base de datos
  
 Necesita crearse una base de datos en mysql/mariadb con el nombre ```chronotebd_test```. Después hay que crear un usuario y contraseña para acceder a esa base de datos (si no quiere usar root). Por ejemplo:
 
@@ -53,11 +84,11 @@ development:
 
 ```
 
-* Database initialization
+### Incialización de base de datos
 
 Simplemente coloque el comando ```rails db:migrate``` dentro de la carpeta del proyecto para migrar el esquema de base datos a mysql/mariadb. Entrando con su usuario y contraseña, dentro de la base de datos se debería poder ver las tablas y sus atributos.
 
-* Usage
+### Uso
 
 Para probar la api simplemente inicie el servidor con ```rails s``` y puede probar peticiones como el registro de un usuario (usando unix): 
 
