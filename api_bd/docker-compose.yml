@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   app:
     build:
@@ -10,10 +8,14 @@ services:
       - gem_cache:/gems # Cachear gems entre reinicios
     environment:
       - DATABASE_URL=mysql2://root:password@db/chronote_development
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - RAILS_ENV=development
     ports:
       - "3000:3000"
     depends_on:
       - db
+    env_file:
+      - .env
 
   db:
     image: mariadb:11.3
