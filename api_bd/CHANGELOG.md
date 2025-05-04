@@ -9,4 +9,8 @@
 ## 0.1.1
 * Notas y temas
 	* La api puede recibir peticiones para crear, modificar, borrar y leer temas y notas.
-	* Cada tema está relacionado a un usuario; teniendo cada tema un usuario y un usuario pudiendo tener múltiples temas. Así mismo un tema puede tener múltiples notas pero cada nota puede pertenecer a un tema (por el momento).
+	* Cada tema está relacionado a un usuario; teniendo cada tema un usuario y un usuario pudiendo tener múltiples temas. Así mismo un tema puede tener múltiples notas pero cada nota puede pertenecer a un tema.
+
+## 0.1.2
+* Docker
+	* Configuración de docker para uso de la api como un contenedor de este.
