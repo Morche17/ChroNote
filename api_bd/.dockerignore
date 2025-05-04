@@ -8,3 +8,9 @@ log/*
 storage/*
 public/packs
 .env
+config/master.key
+.DS_Store
+Icon?
+*~
+\#*#
+/.#*
