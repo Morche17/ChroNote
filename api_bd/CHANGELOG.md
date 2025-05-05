@@ -14,3 +14,7 @@
 ## 0.1.2
 * Docker
 	* Configuración de docker para uso de la api como un contenedor de este.
+
+## 0.1.3
+* Autenticación
+	* Configuración de autenticación para el registro e inicio de sesión.
