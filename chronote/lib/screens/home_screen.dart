@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:chronote/widgets/theme_card.dart';
 import 'package:chronote/screens/note_creator.dart';
+import 'package:chronote/utils/session_manager.dart';
+import 'package:chronote/screens/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -71,18 +73,14 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              minimumSize: const Size(double.infinity, 48),
-            ),
-            onPressed: () {
-              // Acción para cerrar sesión
+            onPressed: () async {
+              await SessionManager.clearSession();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
             },
-            child: const Text(
-              "Cerrar Sesión",
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text("Cerrar Sesión"),
           ),
         ],
       ),
