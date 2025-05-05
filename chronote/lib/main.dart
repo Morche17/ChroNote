@@ -1,7 +1,10 @@
+import 'package:chronote/utils/session_manager.dart';
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart'; // Importa el archivo del SplashScreen
+import 'package:chronote/screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SessionManager.init();
   runApp(const MyApp());
 }
 
