@@ -1,3 +1,50 @@
+# Miscellaneous
+chronote/*.class
+chronote/*.log
+chronote/*.pyc
+chronote/*.swp
+.DS_Store
+chronote/.atom/
+chronote/.build/
+chronote/.buildlog/
+chronote/.history
+chronote/.svn/
+chronote/.swiftpm/
+chronote/migrate_working_dir/
+
+# IntelliJ related
+chronote/*.iml
+chronote/*.ipr
+chronote/*.iws
+chronote/.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+chronote/**/doc/api/
+chronote/**/ios/Flutter/.last_build_id
+chronote/.dart_tool/
+chronote/.flutter-plugins
+chronote/.flutter-plugins-dependencies
+chronote/.pub-cache/
+chronote/.pub/
+chronote/build/
+
+# Symbolication related
+chronote/app.*.symbols
+
+# Obfuscation related
+chronote/app.*.map.json
+
+# Android Studio will place build artifacts here
+chronote/android/app/debug
+chronote/android/app/profile
+chronote/android/app/release
+
+
 # Ignore bundler config.
 api_bd/.bundle
 
@@ -26,7 +73,6 @@ api_bd/tmp/storage/*
 api_bd/config/master.key
 
 # macOS files
-.DS_Store
 Icon?
 
 # Emacs files
