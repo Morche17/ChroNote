@@ -40,26 +40,11 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: "Daily View",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_view_week),
-            label: "Weekly View",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: "Monthly View",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Search",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Daily View"),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_view_week), label: "Weekly View"),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: "Monthly View"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
         ],
       ),
     );
