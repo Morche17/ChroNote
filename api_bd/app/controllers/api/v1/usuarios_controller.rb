@@ -1,5 +1,7 @@
 class Api::V1::UsuariosController < ApplicationController
+  include Authenticable
   before_action :set_usuario, only: %i[ show update destroy ]
+  skip_before_action :authenticate_user!, only: [:create]
 
   # GET /usuarios
   def index
@@ -19,7 +21,7 @@ class Api::V1::UsuariosController < ApplicationController
     @usuario = Usuario.new(usuario_params)
 
     if @usuario.save
-      render json: @usuario, status: :created, location: @usuario
+      render json: @usuario, status: :created #, location: @usuario
     else
       render json: @usuario.errors, status: :unprocessable_entity
     end
