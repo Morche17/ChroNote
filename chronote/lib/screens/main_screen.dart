@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'calendar_view.dart';
 import 'home_screen.dart';
-//import 'monthly_view.dart';
+import 'daily_view.dart';
 import 'weekly_view.dart';
+import 'monthly_view.dart';
+import 'search_view.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,10 +17,10 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    //CalendarViewScreen(),
+    DailyViewScreen(),
     WeeklyViewScreen(),
-    //MonthlyViewScreen(),
-    Center(child: Text('Buscar')), // Puedes reemplazarlo después
+    MonthlyViewScreen(),
+    SearchScreen()
   ];
 
   void _onItemTapped(int index) {

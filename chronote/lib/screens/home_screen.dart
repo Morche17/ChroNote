@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:chronote/widgets/theme_card.dart';
+import 'package:chronote/screens/widgets/theme_card.dart';
 import 'package:chronote/screens/note_creator.dart';
 import 'package:chronote/utils/session_manager.dart';
 import 'package:chronote/screens/login_screen.dart';
