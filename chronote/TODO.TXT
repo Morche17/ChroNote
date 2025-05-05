@@ -1,0 +1,2 @@
+Resolver compilación para android
+Fichero objetivo: chronote/android/app/src/main/res/values/styles.xml
