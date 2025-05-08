@@ -14,14 +14,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String searchQuery = '';
+  @override
+  void initState() {
+    super.initState();
+    _loadTemas();
+  }
+
+  void _loadTemas() async {
+    final userId = await SessionManager.getUserId();
+
+    if (mounted && userId != null) {
+      Provider.of<NoteProvider>(context, listen: false).fetchThemes(userId);
+    } else {
+      // Manejar el caso en que userId sea null
+      print("ID de usuario no disponible");
+    }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteProvider>(
       builder: (context, noteProvider, child) {
         final filteredThemes = noteProvider.themes
-            .where((theme) => theme.toLowerCase().contains(searchQuery.toLowerCase()))
-            .toList();
+          .where((tema) => tema.nombre.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
 
         return Padding(
           padding: const EdgeInsets.all(16.0),
@@ -78,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              theme,
+                              theme.nombre,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
