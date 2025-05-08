@@ -15,7 +15,7 @@ class _NoteCreatorState extends State<NoteCreator> {
   TextEditingController noteController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
-  void _addNewTheme() {
+  /* void _addNewTheme() {
   String newTheme = '';
   showDialog(
     context: context,
@@ -65,7 +65,7 @@ class _NoteCreatorState extends State<NoteCreator> {
         selectedThemes.clear();
       });
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -119,12 +119,12 @@ class _NoteCreatorState extends State<NoteCreator> {
                     }).toList(),
                   ),
                   const SizedBox(height: 8),
-                  TextButton.icon(
-                    onPressed: _addNewTheme,
+                  /* TextButton.icon(
+                    onPressed:,
                     icon: const Icon(Icons.add),
                     label: const Text('Agregar nuevo tema'),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 24), */
 
                   const Text("Contenido de la nota"),
                   const SizedBox(height: 8),
@@ -145,7 +145,7 @@ class _NoteCreatorState extends State<NoteCreator> {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
+            /* ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -156,7 +156,7 @@ class _NoteCreatorState extends State<NoteCreator> {
                 "Crear Nota",
                 style: TextStyle(color: Colors.white),
               ),
-            ),
+            ), */
             const SizedBox(height: 16),
           ],
         ),
