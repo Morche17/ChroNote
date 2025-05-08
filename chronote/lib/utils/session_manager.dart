@@ -26,4 +26,16 @@ class SessionManager {
     await _prefs?.remove(_keyToken);
     await _prefs?.remove(_keyUser);
   }
+  
+  static Future<int?> getUserId() async {
+  if (_prefs == null) {
+    throw Exception('SessionManager no inicializado');
+  }
+
+  final userDataString = _prefs!.getString(_keyUser);
+  if (userDataString == null) return null;
+
+  final Map<String, dynamic> userData = jsonDecode(userDataString);
+  return userData['id'];
+}
 }
