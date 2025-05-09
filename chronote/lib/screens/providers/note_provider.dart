@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:chronote/screens/models/note.dart';
 import 'package:chronote/services/theme_service.dart';
 import 'package:chronote/screens/models/tema.dart';
 
 class NoteProvider extends ChangeNotifier {
-  List<Tema> themes = []; // Mantenemos la lista como String
+  List<Tema> themes = []; 
   List<Note> notes = [];
 
-  // Cargar temas desde el backend
   Future<void> fetchThemes(int userId) async {
     try {
       final temas = await ThemeService.viewThemes(userId);
-      themes = temas; // Ya es List<Tema>
+      themes = temas;
       notifyListeners();
     } catch (e) {
       print("Error al cargar temas: $e");
     }
   }
+  //al final no se necesito
+  static String fechaMariaDB() {
+  final now = DateTime.now();
+  final formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+  return formatter.format(now);
+}
 
   /* void addNote(String name, String content, List<String> selectedThemes) {
     for (var theme in selectedThemes) {
