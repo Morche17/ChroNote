@@ -2,7 +2,7 @@ import 'package:chronote/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
-import 'note_creator.dart';
+import 'theme_creator.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () async {
                       await Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const NoteCreator()),
+                        MaterialPageRoute(builder: (context) => const ThemeCreator()),
                       );
                       setState(() {});  // Rebuild to reflect the new note
                     },
