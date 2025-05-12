@@ -7,7 +7,7 @@ class NoteService {
   static Future<Map<String, dynamic>> addNote(
       int temaId, String nombre, String descripcion, String fecha_notificacion ) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/usuarios/$temaId/temas"),
+      Uri.parse("$baseUrl/temas/$temaId/notas"),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'nota': {'nombre': nombre, 'descripcion': descripcion, 'fecha_notificacion': fecha_notificacion}
