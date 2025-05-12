@@ -1,71 +1,81 @@
+import 'package:chronote/services/note_service.dart';
+import 'package:chronote/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+
 
 class NoteCreator extends StatefulWidget {
-  const NoteCreator({super.key});
+  final int idTema;
+  const NoteCreator({super.key, required this.idTema});
 
   @override
   State<NoteCreator> createState() => _NoteCreatorState();
 }
 
 class _NoteCreatorState extends State<NoteCreator> {
-  List<String> allThemes = ['Trabajo', 'Personal', 'Estudio'];
-  List<String> selectedThemes = [];
   TextEditingController noteController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
 
-  /* void _addNewTheme() {
-  String newTheme = '';
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Agregar nuevo tema'),
-      content: TextField(
-        autofocus: true,
-        onChanged: (value) => newTheme = value,
-        decoration: const InputDecoration(hintText: 'Nombre del tema'),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            if (newTheme.isNotEmpty && !allThemes.contains(newTheme)) {
-              setState(() {
-                allThemes.add(newTheme);
-              });
-              Provider.of<NoteProvider>(context, listen: false).addTheme(newTheme);
-            }
-            Navigator.pop(context);
-          },
-          child: const Text('Agregar'),
-        ),
-      ],
-    ),
-  );
+  void _saveNote() async {
+  final String nombre = nameController.text;
+  final String descripcion = noteController.text;
+  final String fecha = dateController.text;
+
+  if (nombre.isNotEmpty && descripcion.isNotEmpty) {
+    await NoteService.addNote(widget.idTema, nombre, descripcion, fecha);
+
+    if (fecha.isNotEmpty && selectedDate != null && selectedTime != null) {
+      final DateTime fechaBase = DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
+
+      final tz.TZDateTime fechaZonificada = tz.TZDateTime.from(fechaBase, tz.local);
+
+      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+        'recordatorio_channel',
+        'Recordatorios',
+        channelDescription: 'Canal para recordatorios',
+        importance: Importance.max,
+        priority: Priority.high,
+      );
+
+      const NotificationDetails notificationDetails = NotificationDetails(
+        android: androidDetails,
+      );
+      
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        'Nota programada',
+        nombre,
+        fechaZonificada,
+        notificationDetails,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime,
+      );
+    }
+  }
+
+  nameController.clear();
+  noteController.clear();
 }
 
 
-  void _saveNote() {
-    final name = nameController.text;
-    final content = noteController.text;
-
-    if (selectedThemes.isNotEmpty && name.isNotEmpty && content.isNotEmpty) {
-      // Agregar la nota al NoteProvider
-      Provider.of<NoteProvider>(context, listen: false)
-          .addNote(name, content, selectedThemes);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Nota "$name" creada con temas: ${selectedThemes.join(", ")}')),
-      );
-
-      // Limpiar los campos después de guardar
-      nameController.clear();
-      noteController.clear();
-      setState(() {
-        selectedThemes.clear();
-      });
-    }
-  } */
+  @override
+  void dispose() {
+    dateController.dispose();
+    super.dispose();
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -104,27 +114,7 @@ class _NoteCreatorState extends State<NoteCreator> {
                     ),
                   ),
                   const SizedBox(height: 24),
-
-                  const Text("Tema"),
                   const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 8,
-                    children: allThemes.map((theme) {
-                      final isSelected = selectedThemes.contains(theme);
-                      return FilterChip(
-                        label: Text(theme),
-                        selected: isSelected,
-                        onSelected: (_) => _toggleThemeSelection(theme),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 8),
-                  /* TextButton.icon(
-                    onPressed:,
-                    icon: const Icon(Icons.add),
-                    label: const Text('Agregar nuevo tema'),
-                  ),
-                  const SizedBox(height: 24), */
 
                   const Text("Contenido de la nota"),
                   const SizedBox(height: 8),
@@ -141,11 +131,63 @@ class _NoteCreatorState extends State<NoteCreator> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 8),
+                  const Text("Fecha del recordatorio"),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: dateController,
+                    readOnly: true, // Evita que el usuario escriba manualmente
+                    decoration: InputDecoration(
+                      hintText: 'Selecciona una fecha',
+                      suffixIcon: Icon(Icons.calendar_today),
+                      border: OutlineInputBorder(),
+                    ),
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                      );
+
+                      if (pickedDate != null) {
+                        setState(() {
+                          selectedDate = pickedDate;
+                          dateController.text = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+                        });
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  const Text("Hora del recordatorio"),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: timeController,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: 'Selecciona una hora',
+                      suffixIcon: Icon(Icons.access_time),
+                      border: OutlineInputBorder(),
+                    ),
+                    onTap: () async {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay(hour: 0, minute: 0),
+                      );
+                      if (pickedTime != null) {
+                        setState(() {
+                          selectedTime = pickedTime;
+                          timeController.text =
+                          '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
+                        });
+                      }
+                    }, 
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 16),
-            /* ElevatedButton(
+            ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -156,7 +198,7 @@ class _NoteCreatorState extends State<NoteCreator> {
                 "Crear Nota",
                 style: TextStyle(color: Colors.white),
               ),
-            ), */
+            ),
             const SizedBox(height: 16),
           ],
         ),
@@ -164,13 +206,4 @@ class _NoteCreatorState extends State<NoteCreator> {
       backgroundColor: Colors.white,
     );
   }
-  void _toggleThemeSelection(String theme) {
-  setState(() {
-    if (selectedThemes.contains(theme)) {
-      selectedThemes.remove(theme);
-    } else {
-      selectedThemes.add(theme);
-    }
-  });
-}
 }
