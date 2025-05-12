@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
 import 'theme_creator.dart';
+import 'note_creator.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -91,31 +92,46 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              theme.nombre,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  theme.nombre,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                if (themeNotes.isEmpty)
+                                  const Text("Sin notas aún", style: TextStyle(color: Colors.grey))
+                                else
+                                  Column(
+                                    children: themeNotes.map((note) {
+                                      return Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 2),
+                                          child: Text("• ${note.name}"),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            if (themeNotes.isEmpty)
-                              const Text("Sin notas aún", style: TextStyle(color: Colors.grey))
-                            else
-                              Column(
-                                children: themeNotes.map((note) {
-                                  return Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 2),
-                                      child: Text("• ${note.name}"),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => NoteCreator(idTema: theme.id)),
+                              );
+                              setState(() {});  // Rebuild to reflect the new note
+                              },
+                            ),
                           ],
                         ),
                       ),
