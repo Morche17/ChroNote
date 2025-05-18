@@ -1,8 +1,6 @@
 import 'package:chronote/services/note_service.dart';
 import 'package:chronote/main.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:chronote/screens/providers/note_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
