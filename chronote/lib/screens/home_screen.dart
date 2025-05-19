@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String searchQuery = '';
+  
   @override
   void initState() {
     super.initState();
@@ -23,15 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _loadTemas() async {
     final userId = await SessionManager.getUserId();
-
     if (mounted && userId != null) {
       Provider.of<NoteProvider>(context, listen: false).fetchThemes(userId);
     } else {
-      // Manejar el caso en que userId sea null
       print("ID de usuario no disponible");
     }
-}
-
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
           .toList();
 
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
+              // Espacio adicional arriba del título
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,19 +52,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     "Home",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ThemeCreator()),
-                      );
-                      setState(() {});  // Rebuild to reflect the new note
-                    },
+                  // Icono desplazado hacia abajo
+                  Transform.translate(
+                    offset: const Offset(0, 10), // Ajusta este valor para mover más/menos
+                    child: IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ThemeCreator()),
+                        );
+                        setState(() {});
+                      },
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 30), // Espacio aumentado
               TextField(
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
@@ -81,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               Expanded(
                 child: ListView(
                   children: filteredThemes.map((theme) {
@@ -122,14 +126,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                               ],
                             ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => NoteCreator(idTema: theme.id)),
-                              );
-                              setState(() {});  // Rebuild to reflect the new note
+                            IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => NoteCreator(idTema: theme.id)),
+                                );
+                                setState(() {});
                               },
                             ),
                           ],
@@ -139,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }).toList(),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   await SessionManager.clearSession();
