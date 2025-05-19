@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:chronote/screens/models/tema.dart';
 
 class ThemeService {
-  static const String baseUrl = 'https://barnacle-selected-toad.ngrok-free.app/api/v1';
+  static const String baseUrl = 'https://clever-globally-doberman.ngrok-free.app/api/v1';
 
   static Future<List<Tema>> viewThemes(int userId) async {
     final response = await http.get(Uri.parse("$baseUrl/usuarios/$userId/temas"));

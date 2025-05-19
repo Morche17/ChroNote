@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NoteService {
-  static const String baseUrl = 'https://barnacle-selected-toad.ngrok-free.app/api/v1';
+  static const String baseUrl = 'https://clever-globally-doberman.ngrok-free.app/api/v1';
 
   static Future<Map<String, dynamic>> addNote(
       int temaId, String nombre, String descripcion, String fecha_notificacion ) async {
