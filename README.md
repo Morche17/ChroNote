@@ -28,7 +28,7 @@ El repositorio contiene los siguientes archivos y directorios:
 Antes de clonar y compilar esta aplicación, asegúrate de cumplir con los siguientes requisitos:
 
 ### 📱 Dispositivo / Emulador
-- Android 7.0 (API 24) o superior  
+- Android 12.0 o superior  
 - Al menos 1 GB de RAM recomendado  
 - Resolución mínima: 720x1280
 
