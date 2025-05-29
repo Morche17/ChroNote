@@ -23,6 +23,37 @@ El repositorio contiene los siguientes archivos y directorios:
 - **README.md**: Este archivo, que proporciona información sobre el proyecto.
 - **backup.sql**: Este archivo contiene una copia de seguridad de la Base de Datos.
 
+## 🛠️ Requisitos del sistema
+
+Antes de clonar y compilar esta aplicación, asegúrate de cumplir con los siguientes requisitos:
+
+### 📱 Dispositivo / Emulador
+- Android 7.0 (API 24) o superior  
+- Al menos 1 GB de RAM recomendado  
+- Resolución mínima: 720x1280
+
+### 💻 Entorno de desarrollo
+- Android Studio Giraffe o superior  
+- SDK de Android 24 o superior instalado  
+- JDK 17 (incluido en Android Studio por defecto)  
+- Kotlin 1.9 o superior  
+- Gradle 8.0 o superior (automático con Android Studio)
+
+### 🧩 Dependencias necesarias
+- Jetpack Compose
+- Room Database
+- ViewModel + LiveData o StateFlow
+- Navigation Component
+- Material Design 3
+- Accompanist (si se usan animaciones, manejo de permisos, etc.)
+
+> **Nota:** Las versiones específicas de las librerías pueden consultarse en el archivo `build.gradle`.
+
+### 🔐 Permisos requeridos
+- Acceso a almacenamiento interno (para guardar notas localmente)
+- Permisos opcionales para notificaciones (si se usan recordatorios)
+
+
 ## 🗂️ Clonación del repositorio
 
 Para clonar este repositorio en tu computadora, asegúrate primero de tener **Git** instalado.
@@ -53,8 +84,6 @@ Luego puedes usar PowerShell o Git Bash.
   ```bash
   cd ChroNote
 
-## ⚙️ Requisitos de Instalación
-Sección en construcción. Pronto se detallarán los requerimientos técnicos.
 
 ## 🛠️ Procedimiento de Instalación
 En el área de `releases` hay un apk para instalación en android, puede descargar la versión alpha de la aplicación y probarla entrando [aquí](https://github.com/Morche17/ChroNote/releases)
