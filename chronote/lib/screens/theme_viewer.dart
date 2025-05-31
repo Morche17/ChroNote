@@ -6,9 +6,11 @@ import 'package:chronote/screens/models/note.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
 import 'theme_creator.dart';
 
+/// Pantalla que muestra los detalles de un tema y su lista de notas.
+/// Permite editar o eliminar el tema, así como eliminar notas individuales.
 class ThemeViewer extends StatefulWidget {
-  final int idTema;
-  final Tema tema;
+  final int idTema; // ID del tema a mostrar
+  final Tema tema; // Objeto Tema con los datos actuales
 
   const ThemeViewer({super.key, required this.idTema, required this.tema});
 
@@ -17,15 +19,16 @@ class ThemeViewer extends StatefulWidget {
 }
 
 class _ThemeViewerState extends State<ThemeViewer> {
-  bool loading = true;
-  String error = '';
+  bool loading = true; // Estado de carga
+  String error = ''; // Mensaje de error (si hay)
 
   @override
   void initState() {
     super.initState();
-    fetchNotas();
+    fetchNotas(); // Cargar notas al inicio
   }
 
+  /// Carga las notas asociadas al tema
   Future<void> fetchNotas() async {
     try {
       await Provider.of<NoteProvider>(context, listen: false)
@@ -39,17 +42,18 @@ class _ThemeViewerState extends State<ThemeViewer> {
     }
   }
 
+  /// Elimina el tema actual
   Future<void> eliminarTema() async {
     try {
       final userId = await SessionManager.getUserId();
       if (userId == null) {
-      _showMessage("ID de usuario no disponible", isError: true);
-      return;
-    }
+        _showMessage("ID de usuario no disponible", isError: true);
+        return;
+      }
       await Provider.of<NoteProvider>(context, listen: false)
-          .deleteTema(userId,widget.idTema);
+          .deleteTema(userId, widget.idTema);
       if (mounted) {
-        Navigator.pop(context); // Regresa al home
+        Navigator.pop(context); // Regresa a la pantalla anterior
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -58,11 +62,12 @@ class _ThemeViewerState extends State<ThemeViewer> {
     }
   }
 
+  /// Elimina una nota específica y recarga la lista
   Future<void> eliminarNota(int notaId) async {
     try {
       await Provider.of<NoteProvider>(context, listen: false)
-          .deleteNota(widget.idTema,notaId);
-      await fetchNotas(); // Refrescar la lista
+          .deleteNota(widget.idTema, notaId);
+      await fetchNotas(); // Refrescar la lista de notas
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error al eliminar nota: $e")),
@@ -78,6 +83,7 @@ class _ThemeViewerState extends State<ThemeViewer> {
       appBar: AppBar(
         title: const Text("Detalles del Tema"),
         actions: [
+          // Botón para editar el tema
           IconButton(
             icon: const Icon(Icons.edit),
             tooltip: "Editar Tema",
@@ -88,10 +94,11 @@ class _ThemeViewerState extends State<ThemeViewer> {
                   builder: (_) => ThemeCreator(tema: widget.tema),
                 ),
               );
-              await fetchNotas();
-              setState(() {}); // Refrescar
+              await fetchNotas(); // Refrescar datos al volver
+              setState(() {}); // Forzar reconstrucción
             },
           ),
+          // Botón para eliminar el tema
           IconButton(
             icon: const Icon(Icons.delete),
             tooltip: "Eliminar Tema",
@@ -119,19 +126,22 @@ class _ThemeViewerState extends State<ThemeViewer> {
         ],
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator()) // Indicador de carga
           : error.isNotEmpty
-              ? Center(child: Text(error))
+              ? Center(child: Text(error)) // Mostrar error
               : Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Título del tema
                       Text(
                         widget.tema.nombre,
                         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
+
+                      // Texto si tiene calendario
                       Text(
                         widget.tema.poseeCalendario
                             ? 'Con calendario'
@@ -139,11 +149,15 @@ class _ThemeViewerState extends State<ThemeViewer> {
                         style: const TextStyle(fontSize: 16, color: Colors.grey),
                       ),
                       const SizedBox(height: 24),
+
+                      // Encabezado de notas
                       const Text(
                         "Notas:",
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
+
+                      // Lista de notas o mensaje si no hay
                       if (notas.isEmpty)
                         const Text("Este tema aún no tiene notas.")
                       else
@@ -183,7 +197,8 @@ class _ThemeViewerState extends State<ThemeViewer> {
                 ),
     );
   }
-  
+
+  /// Muestra un snackbar de mensaje en la parte inferior
   void _showMessage(String mensaje, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

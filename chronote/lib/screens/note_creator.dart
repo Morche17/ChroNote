@@ -6,9 +6,9 @@ import 'package:chronote/screens/providers/note_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-
+/// Pantalla para crear nuevas notas con recordatorios programados
 class NoteCreator extends StatefulWidget {
-  final int idTema;
+  final int idTema;  // ID del tema al que pertenecerá la nota
   const NoteCreator({super.key, required this.idTema});
 
   @override
@@ -16,71 +16,86 @@ class NoteCreator extends StatefulWidget {
 }
 
 class _NoteCreatorState extends State<NoteCreator> {
+  // Controladores para los campos del formulario
   TextEditingController noteController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
+  
+  // Variables para almacenar fecha y hora seleccionadas
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
+  /// Guarda la nota y programa la notificación local
   void _saveNote() async {
-  final String nombre = nameController.text;
-  final String descripcion = noteController.text;
-  final String fecha = dateController.text + ' ' + timeController.text;
+    final String nombre = nameController.text;
+    final String descripcion = noteController.text;
+    final String fecha = dateController.text + ' ' + timeController.text;
 
-  if (nombre.isNotEmpty && descripcion.isNotEmpty && dateController.text.isNotEmpty && timeController.text.isNotEmpty) {
-    await NoteService.addNote(widget.idTema, nombre, descripcion, fecha);
-
-    if (fecha.isNotEmpty && selectedDate != null && selectedTime != null) {
-      final DateTime fechaBase = DateTime(
-        selectedDate!.year,
-        selectedDate!.month,
-        selectedDate!.day,
-        selectedTime!.hour,
-        selectedTime!.minute,
-      );
-
-      final tz.TZDateTime fechaZonificada = tz.TZDateTime.from(fechaBase, tz.local);
-
-      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-        'recordatorio_channel',
-        'Recordatorios',
-        channelDescription: 'Canal para recordatorios',
-        importance: Importance.max,
-        priority: Priority.high,
-      );
-
-      const NotificationDetails notificationDetails = NotificationDetails(
-        android: androidDetails,
-      );
+    // Validación de campos requeridos
+    if (nombre.isNotEmpty && descripcion.isNotEmpty && 
+        dateController.text.isNotEmpty && timeController.text.isNotEmpty) {
       
-      await flutterLocalNotificationsPlugin.zonedSchedule(
-        DateTime.now().millisecondsSinceEpoch ~/ 1000,
-        'Nota programada',
-        nombre,
-        fechaZonificada,
-        notificationDetails,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.dateAndTime,
-      );
+      // Guarda la nota en el servidor
+      await NoteService.addNote(widget.idTema, nombre, descripcion, fecha);
+
+      // Programa la notificación local si hay fecha/hora seleccionada
+      if (fecha.isNotEmpty && selectedDate != null && selectedTime != null) {
+        final DateTime fechaBase = DateTime(
+          selectedDate!.year,
+          selectedDate!.month,
+          selectedDate!.day,
+          selectedTime!.hour,
+          selectedTime!.minute,
+        );
+
+        // Convierte la fecha a la zona horaria local
+        final tz.TZDateTime fechaZonificada = tz.TZDateTime.from(fechaBase, tz.local);
+
+        // Configuración de la notificación para Android
+        const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+          'recordatorio_channel',
+          'Recordatorios',
+          channelDescription: 'Canal para recordatorios',
+          importance: Importance.max,
+          priority: Priority.high,
+        );
+
+        const NotificationDetails notificationDetails = NotificationDetails(
+          android: androidDetails,
+        );
+        
+        // Programa la notificación
+        await flutterLocalNotificationsPlugin.zonedSchedule(
+          DateTime.now().millisecondsSinceEpoch ~/ 1000,
+          'Nota programada',
+          nombre,
+          fechaZonificada,
+          notificationDetails,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+          matchDateTimeComponents: DateTimeComponents.dateAndTime,
+        );
+      }
     }
+
+    // Limpia los campos del formulario
+    nameController.clear();
+    noteController.clear();
+    dateController.clear();
+    timeController.clear();
+
+    // Muestra feedback al usuario
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Nota creada y recordatorio programado.")),
+    );
+
+    // Cierra la pantalla
+    Navigator.pop(context);
   }
-
-  nameController.clear();
-  noteController.clear();
-  dateController.clear();
-  timeController.clear();
-
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text("Nota creada y recordatorio programado.")),
-  );
-
-  Navigator.pop(context); // cerrar la pantalla
-}
-
 
   @override
   void dispose() {
+    // Limpia los controladores cuando el widget se destruye
     dateController.dispose();
     super.dispose();
   } 
@@ -109,6 +124,7 @@ class _NoteCreatorState extends State<NoteCreator> {
             Expanded(
               child: ListView(
                 children: [
+                  // Campo para el nombre de la nota
                   TextField(
                     controller: nameController,
                     decoration: InputDecoration(
@@ -124,6 +140,7 @@ class _NoteCreatorState extends State<NoteCreator> {
                   const SizedBox(height: 24),
                   const SizedBox(height: 8),
 
+                  // Campo para el contenido de la nota
                   const Text("Contenido de la nota"),
                   const SizedBox(height: 8),
                   TextField(
@@ -140,11 +157,13 @@ class _NoteCreatorState extends State<NoteCreator> {
                     ),
                   ),
                   const SizedBox(height: 8),
+                  
+                  // Selector de fecha
                   const Text("Fecha del recordatorio"),
                   const SizedBox(height: 8),
                   TextField(
                     controller: dateController,
-                    readOnly: true, // Evita que el usuario escriba manualmente
+                    readOnly: true, // Solo selección mediante date picker
                     decoration: InputDecoration(
                       hintText: 'Selecciona una fecha',
                       suffixIcon: Icon(Icons.calendar_today),
@@ -161,17 +180,20 @@ class _NoteCreatorState extends State<NoteCreator> {
                       if (pickedDate != null) {
                         setState(() {
                           selectedDate = pickedDate;
-                          dateController.text = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+                          dateController.text = 
+                            "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
                         });
                       }
                     },
                   ),
                   const SizedBox(height: 8),
+                  
+                  // Selector de hora
                   const Text("Hora del recordatorio"),
                   const SizedBox(height: 8),
                   TextField(
                     controller: timeController,
-                    readOnly: true,
+                    readOnly: true, // Solo selección mediante time picker
                     decoration: InputDecoration(
                       hintText: 'Selecciona una hora',
                       suffixIcon: Icon(Icons.access_time),
@@ -195,6 +217,8 @@ class _NoteCreatorState extends State<NoteCreator> {
               ),
             ),
             const SizedBox(height: 16),
+            
+            // Botón para guardar la nota
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,

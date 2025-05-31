@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import 'screens/main_screen.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:chronote/utils/session_manager.dart';
 import 'package:chronote/screens/splash_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-
-
+// Instancia global para notificaciones locales
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Inicializar zonas horarias para las notificaciones programadas
   tz.initializeTimeZones();
-  const AndroidInitializationSettings androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initSettings = InitializationSettings(android: androidInit);
+
+  // Configuración inicial para Android (icono de notificación)
+  const AndroidInitializationSettings androidInit =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const InitializationSettings initSettings =
+      InitializationSettings(android: androidInit);
+
+  // Inicializar plugin de notificaciones
   await flutterLocalNotificationsPlugin.initialize(initSettings);
+
+  // Inicializar gestor de sesión para persistencia
   await SessionManager.init();
+
+  // Ejecutar la app con proveedor de estado NoteProvider
   runApp(
     ChangeNotifierProvider(
       create: (_) => NoteProvider(),
@@ -32,9 +43,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

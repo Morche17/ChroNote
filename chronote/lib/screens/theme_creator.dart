@@ -4,6 +4,9 @@ import 'package:chronote/utils/session_manager.dart';
 import 'package:chronote/screens/models/tema.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
 
+/// Pantalla para crear o editar un tema.
+/// Si [tema] es proporcionado, se está editando un tema existente.
+/// Si [tema] es null, se está creando uno nuevo.
 class ThemeCreator extends StatefulWidget {
   final Tema? tema;
 
@@ -14,19 +17,20 @@ class ThemeCreator extends StatefulWidget {
 }
 
 class _ThemeCreatorState extends State<ThemeCreator> {
-  late TextEditingController nameController;
-  bool poseeCalendario = false;
+  late TextEditingController nameController; // Controlador del campo de nombre
+  bool poseeCalendario = false; // Valor del checkbox "Posee calendario"
 
   @override
   void initState() {
     super.initState();
+    // Si se está editando un tema, inicializa los valores
     nameController = TextEditingController(text: widget.tema?.nombre ?? '');
     poseeCalendario = widget.tema?.poseeCalendario ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final isEditing = widget.tema != null;
+    final isEditing = widget.tema != null; // Saber si es modo edición
 
     return Scaffold(
       appBar: AppBar(
@@ -43,10 +47,12 @@ class _ThemeCreatorState extends State<ThemeCreator> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            // Campo de texto para el nombre del tema
             TextField(
               controller: nameController,
               decoration: InputDecoration(
@@ -60,6 +66,8 @@ class _ThemeCreatorState extends State<ThemeCreator> {
               ),
             ),
             const SizedBox(height: 16),
+
+            // Checkbox para indicar si el tema tiene calendario
             Row(
               children: [
                 Checkbox(
@@ -74,6 +82,8 @@ class _ThemeCreatorState extends State<ThemeCreator> {
               ],
             ),
             const Spacer(),
+
+            // Botón para guardar el tema
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
@@ -89,15 +99,15 @@ class _ThemeCreatorState extends State<ThemeCreator> {
           ],
         ),
       ),
-      backgroundColor: Colors.white,
     );
   }
 
+  /// Guarda el tema actual (creación o edición)
   Future<void> _saveTheme() async {
     final nombre = nameController.text.trim();
     final calendario = poseeCalendario;
     final noteProvider = Provider.of<NoteProvider>(context, listen: false);
-    final userId = await SessionManager.getUserId();
+    final userId = await SessionManager.getUserId(); // Obtiene el ID del usuario logueado
 
     if (userId == null) {
       _showMessage("ID de usuario no disponible", isError: true);
@@ -111,19 +121,22 @@ class _ThemeCreatorState extends State<ThemeCreator> {
 
     try {
       if (widget.tema == null) {
+        // Si es un nuevo tema
         await noteProvider.addTema(userId, nombre, calendario);
         _showMessage("Tema creado exitosamente");
       } else {
+        // Si es una edición de tema existente
         await noteProvider.updateTheme(userId, widget.tema!.id, nombre, calendario);
         _showMessage("Tema actualizado exitosamente");
       }
 
-      if (mounted) Navigator.pop(context);
+      if (mounted) Navigator.pop(context); // Vuelve a la pantalla anterior
     } catch (e) {
-      _showMessage("Error: $e", isError: true);
+      _showMessage("Error: $e", isError: true); // Muestra error
     }
   }
 
+  /// Muestra un mensaje en pantalla inferior con color según éxito o error
   void _showMessage(String mensaje, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

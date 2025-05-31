@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
 import 'package:chronote/utils/session_manager.dart';
 
+/// Pantalla que muestra las notas agrupadas por día de la semana actual.
 class WeeklyViewScreen extends StatefulWidget {
   const WeeklyViewScreen({super.key});
 
@@ -11,14 +12,15 @@ class WeeklyViewScreen extends StatefulWidget {
 }
 
 class _WeeklyViewScreenState extends State<WeeklyViewScreen> {
-  bool loading = true;
+  bool loading = true; // Indica si se están cargando los datos
 
   @override
   void initState() {
     super.initState();
-    cargarNotasSemana();
+    cargarNotasSemana(); // Cargar datos al iniciar
   }
 
+  /// Carga todas las notas del usuario para la semana actual.
   Future<void> cargarNotasSemana() async {
     final userId = await SessionManager.getUserId();
     if (userId != null) {
@@ -26,15 +28,19 @@ class _WeeklyViewScreenState extends State<WeeklyViewScreen> {
           .fetchAllThemesAndNotes(userId);
     }
     if (mounted) {
-      setState(() => loading = false);
+      setState(() => loading = false); // Finaliza el estado de carga
     }
   }
 
+  /// Agrupa las notas que tienen fecha de notificación dentro de la semana actual.
   Map<String, List<String>> agruparNotasPorDia(List notes) {
     final ahora = DateTime.now();
-    final inicioSemana = ahora.subtract(Duration(days: ahora.weekday - 1)); // Lunes
-    final finSemana = inicioSemana.add(const Duration(days: 6)); // Domingo
 
+    // Calcular inicio (lunes) y fin (domingo) de la semana actual
+    final inicioSemana = ahora.subtract(Duration(days: ahora.weekday - 1));
+    final finSemana = inicioSemana.add(const Duration(days: 6));
+
+    // Mapa de días con listas vacías inicialmente
     Map<String, List<String>> semana = {
       'Lunes': [],
       'Martes': [],
@@ -45,13 +51,16 @@ class _WeeklyViewScreenState extends State<WeeklyViewScreen> {
       'Domingo': [],
     };
 
+    // Iterar sobre todas las notas
     for (var nota in notes) {
       if (nota.fechaNotificacion == null) continue;
 
       final soloFecha = DateUtils.dateOnly(nota.fechaNotificacion!);
-      if (soloFecha.isBefore(inicioSemana) || soloFecha.isAfter(finSemana)) continue;
+      if (soloFecha.isBefore(inicioSemana) || soloFecha.isAfter(finSemana)) {
+        continue; // Fuera del rango de la semana actual
+      }
 
-      final diaSemana = soloFecha.weekday;
+      final diaSemana = soloFecha.weekday; // 1 = lunes, ..., 7 = domingo
       final nombreDia = [
         'Lunes',
         'Martes',
@@ -62,6 +71,7 @@ class _WeeklyViewScreenState extends State<WeeklyViewScreen> {
         'Domingo'
       ][diaSemana - 1];
 
+      // Agrega el nombre de la nota al día correspondiente
       semana[nombreDia]?.add(nota.nombre);
     }
 
@@ -71,7 +81,7 @@ class _WeeklyViewScreenState extends State<WeeklyViewScreen> {
   @override
   Widget build(BuildContext context) {
     final notes = Provider.of<NoteProvider>(context).notes;
-    final semana = agruparNotasPorDia(notes);
+    final semana = agruparNotasPorDia(notes); // Agrupar las notas por día
 
     return Scaffold(
       appBar: AppBar(title: const Text('Esta Semana')),
@@ -87,9 +97,10 @@ class _WeeklyViewScreenState extends State<WeeklyViewScreen> {
                     children: [
                       Row(
                         children: [
+                          // Checkbox decorativo, sin funcionalidad por ahora
                           Checkbox(value: false, onChanged: (_) {}),
                           Text(
-                            dia.key,
+                            dia.key, // Nombre del día (ej. Lunes)
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
