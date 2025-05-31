@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScheduleView extends StatefulWidget {
-  const ScheduleView({super.key});
+  final int temaId;
+  const ScheduleView({super.key, required this.temaId});
 
   @override
   State<ScheduleView> createState() => _ScheduleViewState();
@@ -11,7 +14,7 @@ class _ScheduleViewState extends State<ScheduleView> {
   bool editMode = false;
 
   final List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  final Map<String, List<Map<String, dynamic>>> schedule = {
+  Map<String, List<Map<String, dynamic>>> schedule = {
     'Mon': [],
     'Tue': [],
     'Wed': [],
@@ -21,10 +24,42 @@ class _ScheduleViewState extends State<ScheduleView> {
     'Sun': [],
   };
 
+  @override
+  void initState() {
+    super.initState();
+    _loadSchedule();
+  }
+
+  Future<void> _loadSchedule() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString(widget.temaId.toString());
+    if (jsonString != null) {
+      final decoded = jsonDecode(jsonString) as Map<String, dynamic>;
+      setState(() {
+        schedule = decoded.map((key, value) => MapEntry(
+              key,
+              List<Map<String, dynamic>>.from(
+                (value as List).map((e) => Map<String, dynamic>.from(e)),
+              ),
+            ));
+      });
+    }
+  }
+
+  Future<void> _saveSchedule() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = jsonEncode(schedule);
+    await prefs.setString(widget.temaId.toString(), jsonString);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Horario guardado')),
+    );
+  }
+
   void toggleEditMode() {
     setState(() {
       editMode = !editMode;
     });
+    if (!editMode) _saveSchedule(); // Guarda al salir del modo edición
   }
 
   void showEditDialog(String day, int index) {
@@ -87,7 +122,10 @@ class _ScheduleViewState extends State<ScheduleView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Schedule'),
-        leading: const Icon(Icons.arrow_back),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         actions: [
           IconButton(
             icon: Icon(editMode ? Icons.check : Icons.edit),

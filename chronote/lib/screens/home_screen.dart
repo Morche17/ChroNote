@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chronote/screens/providers/note_provider.dart';
 import 'theme_creator.dart';
+import 'theme_viewer.dart';
 import 'note_creator.dart';
 import 'login_screen.dart';
+import 'schedule_screen.dart'; // Asegúrate de crear esta pantalla
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String searchQuery = '';
-  
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _loadTemas() async {
     final userId = await SessionManager.getUserId();
+
     if (mounted && userId != null) {
       Provider.of<NoteProvider>(context, listen: false).fetchThemes(userId);
     } else {
@@ -36,15 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<NoteProvider>(
       builder: (context, noteProvider, child) {
         final filteredThemes = noteProvider.themes
-          .where((tema) => tema.nombre.toLowerCase().contains(searchQuery.toLowerCase()))
-          .toList();
+            .where((tema) => tema.nombre.toLowerCase().contains(searchQuery.toLowerCase()))
+            .toList();
 
         return Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Espacio adicional arriba del título
-              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,23 +53,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     "Home",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  // Icono desplazado hacia abajo
-                  Transform.translate(
-                    offset: const Offset(0, 10), // Ajusta este valor para mover más/menos
-                    child: IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ThemeCreator()),
-                        );
-                        setState(() {});
-                      },
-                    ),
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ThemeCreator()),
+                      );
+                      setState(() {}); // Rebuild to reflect the new note
+                    },
                   ),
                 ],
               ),
-              const SizedBox(height: 30), // Espacio aumentado
+              const SizedBox(height: 16),
               TextField(
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
@@ -85,56 +82,68 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               Expanded(
                 child: ListView(
                   children: filteredThemes.map((theme) {
-                    final themeNotes = noteProvider.notes
-                        .where((note) => note.theme == theme)
-                        .toList();
                     return Card(
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  theme.nombre,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                if (themeNotes.isEmpty)
-                                  const Text("Sin notas aún", style: TextStyle(color: Colors.grey))
-                                else
-                                  Column(
-                                    children: themeNotes.map((note) {
-                                      return Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 2),
-                                          child: Text("• ${note.name}"),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                              ],
+                            Text(
+                              theme.nombre,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => NoteCreator(idTema: theme.id)),
-                                );
-                                setState(() {});
-                              },
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                              if (theme.poseeCalendario)
+                                IconButton(
+                                  icon: const Icon(Icons.calendar_today),
+                                  tooltip: 'Ver Calendario',
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ScheduleView(temaId: theme.id),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.search),
+                                  tooltip: 'Ver Tema',
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ThemeViewer(idTema: theme.id, tema: theme),
+                                      ),
+                                    );
+                                    setState(() {});
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.add),
+                                  tooltip: 'Añadir Nota',
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NoteCreator(idTema: theme.id)),
+                                    );
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -143,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }).toList(),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   await SessionManager.clearSession();
