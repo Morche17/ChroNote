@@ -86,7 +86,7 @@ Luego puedes usar PowerShell o Git Bash.
 
 
 ## 🛠️ Procedimiento de Instalación
-En el área de `releases` hay un apk para instalación en android, puede descargar la versión alpha de la aplicación y probarla entrando [aquí](https://github.com/Morche17/ChroNote/releases)
+En el área de `releases` hay un apk para instalación en android, puede descargar la primera versión de la aplicación y probarla entrando [aquí en este enlace](https://github.com/Morche17/ChroNote/releases/tag/v1.0.0)
 
 ## 💻 Tecnologías y Lenguajes Utilizados
 
