@@ -18,11 +18,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'login', to: 'sessions#create'
       resources :usuarios, only: [:create]
-      
+
       # Rutas que requieren autenticación
       resources :usuarios, except: [:create] do
-        resources :temas, shallow: true do
-          resources :notas, shallow: true
+        resources :temas do
+          resources :notas
         end
       end
     end
