@@ -25,12 +25,12 @@ class _LoginScreenState extends State<LoginScreen> {
           _emailController.text,
           _passwordController.text,
         );
-        
+
         await SessionManager.saveSession(
           response['token'],
           response['usuario'],
         );
-        
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const MainScreen()),
@@ -112,26 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-              const SizedBox(height: 16),
-              Row(
-                children: const [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Text("O"),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                onPressed: () {},
-                icon: const Icon(Icons.g_mobiledata, color: Colors.red),
-                label: const Text("Continuar con Google"),
-              ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
