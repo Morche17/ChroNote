@@ -5,7 +5,7 @@ class SessionManager {
   static SharedPreferences? _prefs; 
   static const String _keyToken = 'auth_token';
   static const String _keyUser = 'user_data';
-
+  
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
@@ -28,14 +28,20 @@ class SessionManager {
   }
   
   static Future<int?> getUserId() async {
-  if (_prefs == null) {
-    throw Exception('SessionManager no inicializado');
+    if (_prefs == null) {
+      throw Exception('SessionManager no inicializado');
+    }
+    
+    final userDataString = _prefs!.getString(_keyUser);
+    if (userDataString == null) return null;
+    
+    final Map<String, dynamic> userData = jsonDecode(userDataString);
+    return userData['id'];
   }
-
-  final userDataString = _prefs!.getString(_keyUser);
-  if (userDataString == null) return null;
-
-  final Map<String, dynamic> userData = jsonDecode(userDataString);
-  return userData['id'];
-}
+  static Future<String?> getToken() async {
+    if (_prefs == null) {
+      throw Exception('SessionManager no inicializado');
+    }
+    return _prefs!.getString(_keyToken);
+  }
 }
