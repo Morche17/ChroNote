@@ -104,7 +104,7 @@ El proyecto está compuesto por varios lenguajes de programación y tecnologías
 
 Este proyecto ha sido desarrollado por:
 
-- [compacano (Alfonso Cano)](https://github.com/compacano)
+- [cano0-o (Alfonso Cano)](https://github.com/cano0-o)
 - [JuanRoman01 (Juan Antonio Roman Castro)](https://github.com/JuanRoman01)
 - [Morche17 (Emanuel Tavares)](https://github.com/Morche17)
 - [Kush4o (Adam García Romero)](https://github.com/Kush4o)
