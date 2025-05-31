@@ -1,26 +1,38 @@
-import 'package:chronote/services/theme_service.dart';
-import 'package:chronote/utils/session_manager.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:chronote/utils/session_manager.dart';
+import 'package:chronote/screens/models/tema.dart';
+import 'package:chronote/screens/providers/note_provider.dart';
 
 class ThemeCreator extends StatefulWidget {
-  const ThemeCreator({super.key});
+  final Tema? tema;
+
+  const ThemeCreator({super.key, this.tema});
 
   @override
   State<ThemeCreator> createState() => _ThemeCreatorState();
 }
 
 class _ThemeCreatorState extends State<ThemeCreator> {
-  TextEditingController nameController = TextEditingController();
+  late TextEditingController nameController;
   bool poseeCalendario = false;
 
   @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.tema?.nombre ?? '');
+    poseeCalendario = widget.tema?.poseeCalendario ?? false;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isEditing = widget.tema != null;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Crear Tema",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        title: Text(
+          isEditing ? "Editar Tema" : "Crear Tema",
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -82,34 +94,42 @@ class _ThemeCreatorState extends State<ThemeCreator> {
   }
 
   Future<void> _saveTheme() async {
-    final nombre = nameController.text;
+    final nombre = nameController.text.trim();
     final calendario = poseeCalendario;
+    final noteProvider = Provider.of<NoteProvider>(context, listen: false);
     final userId = await SessionManager.getUserId();
 
-    if (mounted && userId != null) {
-      try{
-        await ThemeService.addTheme(userId, nombre, calendario);
-        showDialog(
-          context: context, 
-          builder: (_) => AlertDialog(
-            title: const Text("Tema guardado"),
-            content: const Text("Su tema se a guardado exitosamente en la base de datos"),
-          )
-        );
+    if (userId == null) {
+      _showMessage("ID de usuario no disponible", isError: true);
+      return;
+    }
+
+    if (nombre.isEmpty) {
+      _showMessage("El nombre del tema no puede estar vacío", isError: true);
+      return;
+    }
+
+    try {
+      if (widget.tema == null) {
+        await noteProvider.addTema(userId, nombre, calendario);
+        _showMessage("Tema creado exitosamente");
+      } else {
+        await noteProvider.updateTheme(userId, widget.tema!.id, nombre, calendario);
+        _showMessage("Tema actualizado exitosamente");
       }
-      catch (e) {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: const Text('Error'),
-            content: Text(e.toString()),
-          ),
-        );
-      }
-    } else {
-      
-      print("ID de usuario no disponible");
+
+      if (mounted) Navigator.pop(context);
+    } catch (e) {
+      _showMessage("Error: $e", isError: true);
     }
   }
-}
 
+  void _showMessage(String mensaje, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mensaje),
+        backgroundColor: isError ? Colors.red : Colors.green,
+      ),
+    );
+  }
+}
