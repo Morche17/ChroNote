@@ -1,8 +1,11 @@
 import 'package:chronote/services/note_service.dart';
 import 'package:chronote/main.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:chronote/screens/providers/note_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+
 
 class NoteCreator extends StatefulWidget {
   final int idTema;
@@ -21,144 +24,66 @@ class _NoteCreatorState extends State<NoteCreator> {
   TimeOfDay? selectedTime;
 
   void _saveNote() async {
-<<<<<<< HEAD
   final String nombre = nameController.text;
   final String descripcion = noteController.text;
   final String fecha = dateController.text + ' ' + timeController.text;
 
-  if (nombre.isNotEmpty && descripcion.isNotEmpty && fecha.isNotEmpty) {
+  if (nombre.isNotEmpty && descripcion.isNotEmpty && dateController.text.isNotEmpty && timeController.text.isNotEmpty) {
     await NoteService.addNote(widget.idTema, nombre, descripcion, fecha);
-=======
-    final String nombre = nameController.text;
-    final String descripcion = noteController.text;
-    final String fecha = dateController.text;
 
-    if (nombre.isNotEmpty && descripcion.isNotEmpty) {
-      try {
-        await NoteService.addNote(widget.idTema, nombre, descripcion, fecha);
->>>>>>> 9c11d6cb3bf6692ac8ddc4aa15b3daa02ab38de7
+    if (fecha.isNotEmpty && selectedDate != null && selectedTime != null) {
+      final DateTime fechaBase = DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
 
-        if (fecha.isNotEmpty && selectedDate != null && selectedTime != null) {
-          final DateTime fechaBase = DateTime(
-            selectedDate!.year,
-            selectedDate!.month,
-            selectedDate!.day,
-            selectedTime!.hour,
-            selectedTime!.minute,
-          );
+      final tz.TZDateTime fechaZonificada = tz.TZDateTime.from(fechaBase, tz.local);
 
-          final tz.TZDateTime fechaZonificada =
-              tz.TZDateTime.from(fechaBase, tz.local);
+      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+        'recordatorio_channel',
+        'Recordatorios',
+        channelDescription: 'Canal para recordatorios',
+        importance: Importance.max,
+        priority: Priority.high,
+      );
 
-          const AndroidNotificationDetails androidDetails =
-              AndroidNotificationDetails(
-            'recordatorio_channel',
-            'Recordatorios',
-            channelDescription: 'Canal para recordatorios',
-            importance: Importance.max,
-            priority: Priority.high,
-          );
-
-          const NotificationDetails notificationDetails = NotificationDetails(
-            android: androidDetails,
-          );
-
-          await flutterLocalNotificationsPlugin.zonedSchedule(
-            DateTime.now().millisecondsSinceEpoch ~/ 1000,
-            'Nota programada',
-            nombre,
-            fechaZonificada,
-            notificationDetails,
-            androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-            matchDateTimeComponents: DateTimeComponents.dateAndTime,
-          );
-        }
-
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: const Text('Nota guardada'),
-              content: const Text('La nota se ha guardado exitosamente.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-        }
-
-        // Limpiar todos los campos
-        nameController.clear();
-        noteController.clear();
-        dateController.clear();
-        timeController.clear();
-        setState(() {
-          selectedDate = null;
-          selectedTime = null;
-        });
-      } catch (e) {
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: const Text('Error'),
-              content: Text(e.toString()),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-        }
-      }
-    } else {
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: const Text('Campos requeridos'),
-            content: const Text('Nombre y contenido son obligatorios'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
+      const NotificationDetails notificationDetails = NotificationDetails(
+        android: androidDetails,
+      );
+      
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        'Nota programada',
+        nombre,
+        fechaZonificada,
+        notificationDetails,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime,
+      );
     }
   }
 
-<<<<<<< HEAD
   nameController.clear();
   noteController.clear();
   dateController.clear();
   timeController.clear();
 
   ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text("Nota creada.")),
+    const SnackBar(content: Text("Nota creada y recordatorio programado.")),
   );
 
   Navigator.pop(context); // cerrar la pantalla
 }
 
 
-=======
->>>>>>> 9c11d6cb3bf6692ac8ddc4aa15b3daa02ab38de7
   @override
   void dispose() {
     dateController.dispose();
-    timeController.dispose();
-    noteController.dispose();
-    nameController.dispose();
     super.dispose();
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -198,6 +123,7 @@ class _NoteCreatorState extends State<NoteCreator> {
                   ),
                   const SizedBox(height: 24),
                   const SizedBox(height: 8),
+
                   const Text("Contenido de la nota"),
                   const SizedBox(height: 8),
                   TextField(
@@ -218,7 +144,7 @@ class _NoteCreatorState extends State<NoteCreator> {
                   const SizedBox(height: 8),
                   TextField(
                     controller: dateController,
-                    readOnly: true,
+                    readOnly: true, // Evita que el usuario escriba manualmente
                     decoration: InputDecoration(
                       hintText: 'Selecciona una fecha',
                       suffixIcon: Icon(Icons.calendar_today),
@@ -235,8 +161,7 @@ class _NoteCreatorState extends State<NoteCreator> {
                       if (pickedDate != null) {
                         setState(() {
                           selectedDate = pickedDate;
-                          dateController.text =
-                              "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+                          dateController.text = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
                         });
                       }
                     },
@@ -261,10 +186,10 @@ class _NoteCreatorState extends State<NoteCreator> {
                         setState(() {
                           selectedTime = pickedTime;
                           timeController.text =
-                              '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
+                          '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
                         });
                       }
-                    },
+                    }, 
                   ),
                 ],
               ),
