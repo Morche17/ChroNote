@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_23_022919) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_31_023003) do
   create_table "nota", charset: "utf8mb4", collation: "utf8mb4_uca1400_ai_ci", force: :cascade do |t|
     t.bigint "tema_id", null: false
     t.string "nombre"
     t.string "descripcion"
-    t.datetime "fecha_creacion"
-    t.date "fecha_notificacion"
+    t.datetime "fecha_notificacion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tema_id"], name: "index_nota_on_tema_id"
