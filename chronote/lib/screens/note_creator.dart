@@ -21,6 +21,14 @@ class _NoteCreatorState extends State<NoteCreator> {
   TimeOfDay? selectedTime;
 
   void _saveNote() async {
+<<<<<<< HEAD
+  final String nombre = nameController.text;
+  final String descripcion = noteController.text;
+  final String fecha = dateController.text + ' ' + timeController.text;
+
+  if (nombre.isNotEmpty && descripcion.isNotEmpty && fecha.isNotEmpty) {
+    await NoteService.addNote(widget.idTema, nombre, descripcion, fecha);
+=======
     final String nombre = nameController.text;
     final String descripcion = noteController.text;
     final String fecha = dateController.text;
@@ -28,6 +36,7 @@ class _NoteCreatorState extends State<NoteCreator> {
     if (nombre.isNotEmpty && descripcion.isNotEmpty) {
       try {
         await NoteService.addNote(widget.idTema, nombre, descripcion, fecha);
+>>>>>>> 9c11d6cb3bf6692ac8ddc4aa15b3daa02ab38de7
 
         if (fecha.isNotEmpty && selectedDate != null && selectedTime != null) {
           final DateTime fechaBase = DateTime(
@@ -126,6 +135,22 @@ class _NoteCreatorState extends State<NoteCreator> {
     }
   }
 
+<<<<<<< HEAD
+  nameController.clear();
+  noteController.clear();
+  dateController.clear();
+  timeController.clear();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text("Nota creada.")),
+  );
+
+  Navigator.pop(context); // cerrar la pantalla
+}
+
+
+=======
+>>>>>>> 9c11d6cb3bf6692ac8ddc4aa15b3daa02ab38de7
   @override
   void dispose() {
     dateController.dispose();
