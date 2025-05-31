@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _emailController.text,
           _passwordController.text,
         );
-        
+
         Navigator.pop(context);
       } catch (e) {
         showDialog(
@@ -72,7 +72,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   labelText: "Nombre",
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => value!.isEmpty ? 'Ingrese su nombre' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Ingrese su nombre' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -82,7 +83,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   labelText: "Dirección de Correo Electrónico",
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => value!.isEmpty ? 'Ingrese su email' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Ingrese su email' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -93,7 +95,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   labelText: "Crear Contraseña",
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => value!.isEmpty ? 'Ingrese su contraseña' : null,
+                validator: (value) =>
+                    value!.isEmpty ? 'Ingrese su contraseña' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -114,7 +117,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               CheckboxListTile(
                 title: const Text("Acepto Términos y Condiciones"),
                 value: _acceptTerms,
-                onChanged: (value) => setState(() => _acceptTerms = value!),
+                onChanged: (value) =>
+                    setState(() => _acceptTerms = value!),
                 controlAffinity: ListTileControlAffinity.leading,
               ),
               _isLoading
@@ -131,31 +135,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
               const SizedBox(height: 16),
-              Row(
-                children: const [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Text("O"),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                onPressed: () {},
-                icon: const Icon(Icons.g_mobiledata, color: Colors.red),
-                label: const Text("Continuar con Google"),
-              ),
-              const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
                   );
                 },
                 child: const Text(
