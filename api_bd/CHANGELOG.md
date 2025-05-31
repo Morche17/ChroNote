@@ -8,13 +8,17 @@
 
 ## 0.1.1
 * Notas y temas
-	* La api puede recibir peticiones para crear, modificar, borrar y leer temas y notas.
-	* Cada tema está relacionado a un usuario; teniendo cada tema un usuario y un usuario pudiendo tener múltiples temas. Así mismo un tema puede tener múltiples notas pero cada nota puede pertenecer a un tema.
+  * La api puede recibir peticiones para crear, modificar, borrar y leer temas y notas.
+  * Cada tema está relacionado a un usuario; teniendo cada tema un usuario y un usuario pudiendo tener múltiples temas. Así mismo un tema puede tener múltiples notas pero cada nota puede pertenecer a un tema.
 
 ## 0.1.2
 * Docker
-	* Configuración de docker para uso de la api como un contenedor de este.
+  * Configuración de docker para uso de la api como un contenedor de este.
 
 ## 0.1.3
 * Autenticación
-	* Configuración de autenticación para el registro e inicio de sesión.
+  * Configuración de autenticación para el registro e inicio de sesión.
+
+## 0.1.4
+* Rutas
+  * Retiro de `shallow: true`. Esto permitirá hacer consultas anidadas requiriendo un nivel más de anidación.
