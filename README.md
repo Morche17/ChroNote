@@ -93,7 +93,7 @@ docker-compose up --build
 
 * Después de levantar el contenedor, puedes entrar al navegador de tu preferencia y colocar ```localhost:3000``` para comprobar que el servidor está funcionando:
 
-![Servidor funcionando](anexos/rails.png)
+![Servidor funcionando](api_bd/anexos/rails.png)
 
 * Puedes probar un registro de usuario colocando esta petición con `curl` (si estás usando Linux o macOS):
 
