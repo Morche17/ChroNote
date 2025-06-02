@@ -51,7 +51,7 @@ Antes de clonar y compilar esta aplicación, asegúrate de cumplir con los sigui
 # API para conexión con la base de datos
 
 * Ruby version
-	* Para la creación de la api utilicé la versión 3.4.2
+	* Para la creación de la api utilizamos la versión 3.4.2
 
 * System dependencies
 	* mysql2 ~> 0.5
