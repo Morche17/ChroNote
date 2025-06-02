@@ -115,4 +115,4 @@ Manual Tecnico:
 https://drive.google.com/file/d/12xaFInsgxhfHSX5qn_Sv6t3MsJF0xkw5/view?usp=drive_link
 
 Manual de Usuario:
-https://drive.google.com/file/d/1kaSKuyKPTXs89o3aQ7P8YPYbuaqf-Hft/view?usp=sharing
+https://drive.google.com/file/d/1_I7tdX8EjP2PFADIjlUqpnlRUWnal4Wg/view?usp=sharing
