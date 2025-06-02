@@ -111,6 +111,8 @@ Este proyecto ha sido desarrollado por:
 - [Lok0Estrella (Isais Estrella)](https://github.com/Lok0Estrella)
 
 ## 📚 Documentación del Proyecto
+Manual Tecnico:
+https://drive.google.com/file/d/12xaFInsgxhfHSX5qn_Sv6t3MsJF0xkw5/view?usp=drive_link
 
-Puedes acceder a la documentación técnica y avances del proyecto en el siguiente enlace:
-https://drive.google.com/drive/folders/1PZeGVICpXNaKElMCa6xnPH7l3ekRzVNU?usp=sharing
+Manual de Usuario:
+https://drive.google.com/file/d/1kaSKuyKPTXs89o3aQ7P8YPYbuaqf-Hft/view?usp=sharing
