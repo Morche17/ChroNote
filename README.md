@@ -210,7 +210,7 @@ Este proyecto ha sido desarrollado por:
 
 ## 📚 Documentación del Proyecto
 Manual Tecnico:
-https://drive.google.com/file/d/12xaFInsgxhfHSX5qn_Sv6t3MsJF0xkw5/view?usp=drive_link
+https://docs.google.com/document/d/1JYh0GI_hhT_m4QZD2VEnyUwaFRAMcBnw/edit?usp=sharing&ouid=104849536494448131573&rtpof=true&sd=true
 
 Manual de Usuario:
-https://drive.google.com/file/d/1_I7tdX8EjP2PFADIjlUqpnlRUWnal4Wg/view?usp=sharing
+https://docs.google.com/document/d/1PBSWbvYvmxmr85lh2M2mb0TUJ4xlI5in/edit?usp=sharing&ouid=104849536494448131573&rtpof=true&sd=true
